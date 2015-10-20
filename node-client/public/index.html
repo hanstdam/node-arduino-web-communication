@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Web page socket IO arduino communication</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; font-family: arial, verdana }
+      .container { width: 400px; height: 400px; margin: -200px 0 0 -200px; position: fixed; top: 50%; left: 50%;}
+      .square { height: 100px; width: 100px; position: absolute; border: 1px solid gray; color: #000; font-weight: bold; text-align: center; font-size: 45px; padding-top: 20px; display: block; }
+      .square:hover { background-color: lightgray;}
+      .north { top: 0; left: 50%; margin-left: -50px; }
+      .south { bottom: 0; left: 50%; margin-left: -50px; }
+      .west { top: 50%; left: 0; margin-top: -50px; }
+      .east { top: 50%; right: 0;margin-top: -50px; }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+
+      document.addEventListener('DOMContentLoaded', initEventListeners, false);
+
+      function initEventListeners() {
+        var squares = document.getElementsByClassName('square')
+        console.log(squares);
+        for (var i = 0; i < squares.length; i++) {
+          squares[i].addEventListener('mouseenter', sendMessage.bind(null, '1'))
+          squares[i].addEventListener('mouseleave', sendMessage.bind(null, '0'))
+        }
+      }
+
+      function sendMessage(value, event) {
+        var direction = event.target.innerHTML
+        var message = 'SQ' + direction + ':' + value
+        socket.emit('message', message)
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="square north">N</div>
+      <div class="square east">E</div>
+      <div class="square south">S</div>
+      <div class="square west">W</div>
+    </div>
+  </body>
+</html>
