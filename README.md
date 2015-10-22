@@ -58,51 +58,57 @@ Let's add a simple event triggered by a button on the web page, which turns on a
 
 Add the folloing markup to [index.html](https://github.com/hanstdam/node-arduino-web-communication/blob/master/node-client/public/index.html):
 
-    ...
-    <body>
-    ...
-    <button class="red-led-trigger">Press to turn on red LED</button>
-    ...
-    </body>
-    ...
+```HTML
+...
+<body>
+...
+<button class="red-led-trigger">Press to turn on red LED</button>
+...
+</body>
+...
+```
 
 Adn the following javascript to [index.html](https://github.com/hanstdam/node-arduino-web-communication/blob/master/node-client/public/index.html):
 
-    ...
-    function initEventListeners() {
-      ...
-      var redLedButton = document.querySelector('.red-led-trigger')
-      redLedButton.addEventListener('mousedown', sendLedMessage.bind(null, '1'))
-      redLedButton.addEventListener('mouseup', sendLedMessage.bind(null, '0'))
+```JavaScript
+...
+function initEventListeners() {
+  ...
+  var redLedButton = document.querySelector('.red-led-trigger')
+  redLedButton.addEventListener('mousedown', sendLedMessage.bind(null, '1'))
+  redLedButton.addEventListener('mouseup', sendLedMessage.bind(null, '0'))
 
-      function sendLedMessage(value, event) {
-        socket.emit('message', 'RLT:' + value)
-      }
-      ...
-    }
+  function sendLedMessage(value, event) {
+    socket.emit('message', 'RLT:' + value)
+  }
+  ...
+}
+```
 
 #### Arduino sketch
 The arduino sketch needs to recognize the events we are sending to it. Further we need to define what the arduino should do when an event is received.
 
 In the [arduino sketch](https://github.com/hanstdam/node-arduino-web-communication/blob/master/arduino-sketch/sketch/sketch.ino#L25-L28) each command needs to have a special case. A case for our example could look like this:
 
-    const int redLEDPin = 8;
-    void setup() {
-        ...
-        pinMode(redLEDPin, OUTPUT);
-    }
+```Arduino
+const int redLEDPin = 8;
+void setup() {
+    ...
+    pinMode(redLEDPin, OUTPUT);
+}
 
-    void loop() {
-    ...
-      else if(command == "RLT") {
-        if (value.toInt() === 1) {
-          digitalWrite(redLEDPin, HIGH);
-        } else {
-          digitalWrite(redLEDPin, LOW);
-        }
-      }
-    ...
+void loop() {
+...
+  else if(command == "RLT") {
+    if (value.toInt() === 1) {
+      digitalWrite(redLEDPin, HIGH);
+    } else {
+      digitalWrite(redLEDPin, LOW);
     }
+  }
+...
+}
+```
 
 The `command` is always the first 3 letters in upper case. The `value` is always a string with everything after the colon (`:`) in the message.
 
