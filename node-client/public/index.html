@@ -20,7 +20,6 @@
 
       function initEventListeners() {
         var squares = document.getElementsByClassName('square')
-        console.log(squares);
         for (var i = 0; i < squares.length; i++) {
           squares[i].addEventListener('mouseenter', sendMessage.bind(null, '1'))
           squares[i].addEventListener('mouseleave', sendMessage.bind(null, '0'))
