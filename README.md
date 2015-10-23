@@ -122,6 +122,7 @@ In general keep the commands and values small, and reduce the number of events t
  - Do not have the arduino IDE serial monitor open while the node program is running.
  - Close the node program (Ctrl+C) before uploading a new sketch to the arduino.
  - Make sure the correct serial port is used in your node program. Change [line 7 in `index.js`](https://github.com/hanstdam/node-arduino-web-communication/blob/master/node-client/index.js#L7) to have the correct serial port.
+ - If you get the error `Error: ENOENT, stat 'C:\Users\{username}\AppData\Roaming\npm` you can fix the problem by creating the `npm` folder in `C:\Users\{username}\AppData\Roaming` folder. [See StackOverflow answer](http://stackoverflow.com/questions/25093276/node-js-windows-error-enoent-stat-c-users-rt-appdata-roaming-npm).
 
 ## License
 
