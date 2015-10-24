@@ -18,7 +18,11 @@ The code is tested with Node.js v0.10 stable. It can be installed via directly d
     $ nvm install 0.10
     $ nvm use 0.10
 
-Beware that you might need to run `node` as `sudo`, in order for the joystick to be recognized. This can be little challenging, but the problem has been fixed: https://github.com/creationix/nvm#problems
+Beware that you might need to run `node` as `sudo`, in order for the joystick to be recognized. This can be little challenging, but the problem has been fixed by adding
+
+    alias sudo='sudo env PATH=$PATH:$NVM_BIN'
+
+to the `~/.profile` file. https://github.com/creationix/nvm#problems
 
 ### Arduino
 
